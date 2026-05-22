@@ -1,0 +1,13 @@
+name,category,price,stock
+Laptop,Electronics,45000,25
+Smartphone,Electronics,15000,40
+Headphones,Electronics,2500,100
+T-Shirt,Clothing,800,200
+Jeans,Clothing,1500,150
+Jacket,Clothing,3000,75
+Rice,Grocery,60,500
+Wheat Flour,Grocery,45,400
+Sugar,Grocery,40,300
+Office Chair,Furniture,8000,30
+Desk,Furniture,12000,20
+Bookshelf,Furniture,6000,15
