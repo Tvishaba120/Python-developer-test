@@ -5,14 +5,14 @@ Each question is answered with explanation AND working code examples.
 """
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q1: What is *args and **kwargs?
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_args_kwargs():
     """
-    *args  — Collects positional arguments into a TUPLE.
-    **kwargs — Collects keyword arguments into a DICTIONARY.
+    *args  - Collects positional arguments into a TUPLE.
+    **kwargs - Collects keyword arguments into a DICTIONARY.
 
     Use cases:
       - When you don't know how many arguments a function will receive
@@ -25,13 +25,13 @@ def demo_args_kwargs():
         for key, value in kwargs.items():
             print(f"  {key} = {value}")
 
-    print("── *args and **kwargs ──")
+    print("-- *args and **kwargs --")
     greet("Tvisha", "Rahul", role="Developer", company="Professional Soft-Tech")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q2: @staticmethod vs @classmethod vs instance methods
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_method_types():
     """
@@ -48,11 +48,11 @@ def demo_method_types():
             self.name = name
             self.role = role
 
-        # Instance method — accesses instance attributes via self
+        # Instance method - accesses instance attributes via self
         def introduce(self):
             return f"  I am {self.name}, a {self.role} at {self.company}"
 
-        # Class method — accesses/modifies class-level attributes via cls
+        # Class method - accesses/modifies class-level attributes via cls
         @classmethod
         def change_company(cls, new_name):
             cls.company = new_name
@@ -63,13 +63,13 @@ def demo_method_types():
             name, role = data_string.split("-")
             return cls(name.strip(), role.strip())
 
-        # Static method — no access to self or cls; pure utility
+        # Static method - no access to self or cls; pure utility
         @staticmethod
         def is_valid_role(role):
             valid_roles = ["Developer", "Designer", "Manager", "Tester"]
             return role in valid_roles
 
-    print("── @staticmethod vs @classmethod vs instance method ──")
+    print("-- @staticmethod vs @classmethod vs instance method --")
     emp = Employee("Tvisha", "Developer")
     print(emp.introduce())
     print(f"  Valid role? {Employee.is_valid_role('Developer')}")
@@ -78,23 +78,23 @@ def demo_method_types():
     print(emp2.introduce())
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q3: When would you use set instead of list?
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_set_vs_list():
     """
     Use SET when:
-      ✅ You need unique elements (automatic deduplication)
-      ✅ Fast membership testing — O(1) vs O(n) for list
-      ✅ Set operations: union, intersection, difference
+      You need unique elements (automatic deduplication)
+      Fast membership testing - O(1) vs O(n) for list
+      Set operations: union, intersection, difference
 
     Use LIST when:
-      ✅ Order matters (sets are unordered)
-      ✅ You need duplicate values
-      ✅ You need index-based access
+      Order matters (sets are unordered)
+       You need duplicate values
+      You need index-based access
     """
-    print("── set vs list ──")
+    print("-- set vs list --")
 
     # Deduplication
     names = ["Tvisha", "Rahul", "Tvisha", "Priya", "Rahul"]
@@ -115,9 +115,9 @@ def demo_set_vs_list():
     print(f"  Only in Team A: {team_a - team_b}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q4: What is method overriding?
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_method_overriding():
     """
@@ -138,15 +138,15 @@ def demo_method_overriding():
         def speak(self):  # Overrides Animal.speak()
             return "Meow!"
 
-    print("── Method Overriding ──")
+    print("-- Method Overriding --")
     animals = [Animal(), Dog(), Cat()]
     for animal in animals:
         print(f"  {animal.__class__.__name__}: {animal.speak()}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q5: What is super()?
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_super():
     """
@@ -162,7 +162,7 @@ def demo_super():
             self.speed = speed
 
         def info(self):
-            return f"{self.brand} — {self.speed} km/h"
+            return f"{self.brand} - {self.speed} km/h"
 
     class ElectricCar(Vehicle):
         def __init__(self, brand, speed, battery_kwh):
@@ -173,14 +173,14 @@ def demo_super():
             base = super().info()            # Extends parent method
             return f"{base}, Battery: {self.battery_kwh} kWh"
 
-    print("── super() ──")
+    print("-- super() --")
     car = ElectricCar("Tesla", 250, 100)
     print(f"  {car.info()}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q6: How to create custom exceptions?
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_custom_exceptions():
     """
@@ -193,7 +193,7 @@ def demo_custom_exceptions():
             self.balance = balance
             self.amount = amount
             super().__init__(
-                f"Cannot withdraw ₹{amount}. Current balance: ₹{balance}"
+                f"Cannot withdraw Rs.{amount}. Current balance: Rs.{balance}"
             )
 
     class InvalidAccountError(Exception):
@@ -204,17 +204,17 @@ def demo_custom_exceptions():
             raise InsufficientBalanceError(balance, amount)
         return balance - amount
 
-    print("── Custom Exceptions ──")
+    print("-- Custom Exceptions --")
     try:
         withdraw(500, 1000)
     except InsufficientBalanceError as e:
         print(f"  Caught: {e}")
-        print(f"  Balance: ₹{e.balance}, Attempted: ₹{e.amount}")
+        print(f"  Balance: Rs.{e.balance}, Attempted: Rs.{e.amount}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q7: Handle API failure safely
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_api_failure_handling():
     """
@@ -247,14 +247,14 @@ def demo_api_failure_handling():
         print("  All retries exhausted. Returning default.")
         return {"status": "error", "data": []}
 
-    print("── API Failure Handling ──")
+    print("-- API Failure Handling --")
     result = fetch_data_with_retry("https://api.example.com/data")
     print(f"  Result: {result}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q8: Encapsulation
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_encapsulation():
     """
@@ -262,9 +262,9 @@ def demo_encapsulation():
     restricting direct access to internal state.
 
     In Python:
-      - _single_underscore  → Convention for "protected" (internal use)
-      - __double_underscore → Name mangling (harder to access from outside)
-      - @property           → Controlled access via getters/setters
+      - _single_underscore  - Convention for "protected" (internal use)
+      - __double_underscore - Name mangling (harder to access from outside)
+      - @property           - Controlled access via getters/setters
     """
     class BankAccount:
         def __init__(self, owner, balance):
@@ -288,12 +288,12 @@ def demo_encapsulation():
                 raise ValueError("Deposit must be positive")
             self._balance += amount
 
-    print("── Encapsulation ──")
+    print("-- Encapsulation --")
     acc = BankAccount("Tvisha", 10000)
     print(f"  Owner: {acc.owner}")
-    print(f"  Balance (via property): ₹{acc.balance}")
+    print(f"  Balance (via property): Rs.{acc.balance}")
     acc.deposit(5000)
-    print(f"  After deposit: ₹{acc.balance}")
+    print(f"  After deposit: Rs.{acc.balance}")
 
     try:
         acc.balance = -100
@@ -301,9 +301,9 @@ def demo_encapsulation():
         print(f"  Setter guard: {e}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q9: Context Managers (with statement)
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_context_managers():
     """
@@ -344,7 +344,7 @@ def demo_context_managers():
                 os.remove(filename)
                 print(f"  Temp file '{filename}' cleaned up.")
 
-    print("── Context Managers ──")
+    print("-- Context Managers --")
 
     # Timer context manager
     with Timer() as t:
@@ -355,21 +355,21 @@ def demo_context_managers():
         print(f"  Using temp file: {fname}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q10: List Comprehension vs Loop
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def demo_comprehension_vs_loop():
     """
     List Comprehension:
-      ✅ More concise and Pythonic
-      ✅ Generally faster (optimized at C level in CPython)
-      ✅ Best for simple transformations and filtering
+      More concise and Pythonic
+      Generally faster (optimized at C level in CPython)
+      Best for simple transformations and filtering
 
     Traditional Loop:
-      ✅ Better for complex logic with multiple statements
-      ✅ Easier to debug (can add breakpoints)
-      ✅ More readable for beginners or multi-step operations
+      Better for complex logic with multiple statements
+      Easier to debug (can add breakpoints)
+      More readable for beginners or multi-step operations
     """
     import time
 
@@ -388,77 +388,77 @@ def demo_comprehension_vs_loop():
     squares_comp = [n ** 2 for n in numbers if n % 2 == 0]
     comp_time = time.time() - start
 
-    print("── List Comprehension vs Loop ──")
+    print("-- List Comprehension vs Loop --")
     print(f"  Loop time          : {loop_time:.4f}s")
     print(f"  Comprehension time : {comp_time:.4f}s")
     print(f"  Results match: {squares_loop == squares_comp}")
     print(f"  Comprehension is ~{loop_time/comp_time:.1f}x faster")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q11: ERP System Structure with Django/Flask
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def explain_erp_structure():
     """
     How I would structure an ERP system using Python and Django/Flask:
 
-    ┌─────────────────────────────────────────────────┐
-    │  ERP System Architecture (Django Example)       │
-    ├─────────────────────────────────────────────────┤
-    │                                                 │
-    │  erp_project/                                   │
-    │  ├── manage.py                                  │
-    │  ├── erp_project/                               │
-    │  │   ├── settings.py    # DB, auth, middleware  │
-    │  │   ├── urls.py        # Root URL routing      │
-    │  │   └── celery.py      # Async task queue      │
-    │  ├── apps/                                      │
-    │  │   ├── inventory/     # Products, stock       │
-    │  │   ├── sales/         # Orders, invoices      │
-    │  │   ├── purchasing/    # Purchase orders       │
-    │  │   ├── accounting/    # Ledger, reports       │
-    │  │   ├── hr/            # Employees, payroll    │
-    │  │   └── crm/           # Customers, leads      │
-    │  ├── api/               # REST API (DRF)        │
-    │  └── templates/         # Frontend templates    │
-    │                                                 │
-    │  Key Principles:                                │
-    │  • Each module = separate Django app             │
-    │  • Shared models linked via ForeignKey           │
-    │  • Role-based access control (RBAC)             │
-    │  • Celery for background tasks (reports, emails)│
-    │  • REST API for mobile/frontend integration     │
-    └─────────────────────────────────────────────────┘
+    +-------------------------------------------------+
+    |  ERP System Architecture (Django Example)       |
+    +-------------------------------------------------+
+    |                                                 |
+    |  erp_project/                                   |
+    |  |-- manage.py                                  |
+    |  |-- erp_project/                               |
+    |  |   |-- settings.py    # DB, auth, middleware  |
+    |  |   |-- urls.py        # Root URL routing      |
+    |  |   `-- celery.py      # Async task queue      |
+    |  |-- apps/                                      |
+    |  |   |-- inventory/     # Products, stock       |
+    |  |   |-- sales/         # Orders, invoices      |
+    |  |   |-- purchasing/    # Purchase orders       |
+    |  |   |-- accounting/    # Ledger, reports       |
+    |  |   |-- hr/            # Employees, payroll    |
+    |  |   `-- crm/           # Customers, leads      |
+    |  |-- api/               # REST API (DRF)        |
+    |  `-- templates/         # Frontend templates    |
+    |                                                 |
+    |  Key Principles:                                |
+    |  * Each module = separate Django app             |
+    |  * Shared models linked via ForeignKey           |
+    |  * Role-based access control (RBAC)             |
+    |  * Celery for background tasks (reports, emails)|
+    |  * REST API for mobile/frontend integration     |
+    +-------------------------------------------------+
 
     For Flask: Use Blueprints instead of Django apps,
     SQLAlchemy instead of Django ORM, and Flask-RESTful for APIs.
     """
-    print("── ERP System Structure ──")
+    print("-- ERP System Structure --")
     print("  Recommended: Django with modular apps (inventory, sales, hr, etc.)")
     print("  Each module is a separate Django app with its own models/views/serializers.")
     print("  Use Django REST Framework for API, Celery for async tasks.")
     print("  For Flask: Use Blueprints + SQLAlchemy + Flask-RESTful.")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q12: Advantages of ORM in ERP Development
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def explain_orm_advantages():
     """
     Advantages of using ORM (SQLAlchemy / Django ORM) in ERP:
 
-    1. Database Abstraction — Switch between MySQL, PostgreSQL, SQLite
+    1. Database Abstraction - Switch between MySQL, PostgreSQL, SQLite
        without changing code.
-    2. Security — Automatic parameterized queries prevent SQL injection.
-    3. Productivity — Write Python objects instead of raw SQL.
-    4. Migrations — Schema changes tracked and versioned automatically.
-    5. Relationships — ForeignKey, ManyToMany handled elegantly.
-    6. Query Optimization — Lazy loading, eager loading, query chaining.
-    7. Maintainability — Code is more readable and testable.
+    2. Security - Automatic parameterized queries prevent SQL injection.
+    3. Productivity - Write Python objects instead of raw SQL.
+    4. Migrations - Schema changes tracked and versioned automatically.
+    5. Relationships - ForeignKey, ManyToMany handled elegantly.
+    6. Query Optimization - Lazy loading, eager loading, query chaining.
+    7. Maintainability - Code is more readable and testable.
     """
-    print("── ORM Advantages in ERP ──")
+    print("-- ORM Advantages in ERP --")
     advantages = [
         "Database portability (switch DB engines easily)",
         "SQL injection prevention (parameterized queries)",
@@ -472,9 +472,9 @@ def explain_orm_advantages():
         print(f"  {i}. {adv}")
 
 
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 #  Q13: Handling Concurrency for Stock Updates
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
 
 def explain_concurrency_handling():
     """
@@ -501,14 +501,14 @@ def explain_concurrency_handling():
     5. Transaction Isolation:
        - Use SERIALIZABLE isolation level for critical operations
     """
-    print("── Concurrency Handling ──")
+    print("-- Concurrency Handling --")
     print("  Strategy 1: SELECT FOR UPDATE (pessimistic row locking)")
     print("  Strategy 2: Optimistic locking with version column")
     print("  Strategy 3: Django F() expressions for atomic updates")
     print("  Strategy 4: Redis distributed locks for multi-server")
     print("  Strategy 5: SERIALIZABLE transaction isolation level")
     print()
-    print("  Example (Django F-expression — atomic update):")
+    print("  Example (Django F-expression - atomic update):")
     print("    Product.objects.filter(id=1).update(stock=F('stock') - qty)")
     print("  This generates: UPDATE products SET stock = stock - qty WHERE id = 1")
     print("  The DB handles atomicity, preventing race conditions.")
@@ -520,7 +520,7 @@ def explain_concurrency_handling():
 
 if __name__ == "__main__":
     print("\n" + "=" * 60)
-    print("  Section 5: Conceptual Questions — Code Demos")
+    print("  Section 5: Conceptual Questions - Code Demos")
     print("=" * 60)
 
     demos = [
@@ -540,9 +540,9 @@ if __name__ == "__main__":
     ]
 
     for qid, title, func in demos:
-        print(f"\n{'─' * 60}")
+        print(f"\n{'-' * 60}")
         print(f"  {qid}: {title}")
-        print(f"{'─' * 60}")
+        print(f"{'-' * 60}")
         func()
 
-    print("\n\n✅ Section 5 completed!\n")
+    print("\n\nSection 5 completed!\n")

@@ -10,7 +10,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 
 
-# ── Data Models ────────────────────────────────────────────────
+# -- Data Models ------------------------------------------------
 
 @dataclass
 class Product:
@@ -34,7 +34,7 @@ class SaleRecord:
     timestamp: str
 
 
-# ── Custom Exceptions ──────────────────────────────────────────
+# -- Custom Exceptions ------------------------------------------
 
 class ProductNotFoundError(Exception):
     """Raised when a product is not found in the system."""
@@ -51,7 +51,7 @@ class DuplicateProductError(Exception):
     pass
 
 
-# ── ERP System ─────────────────────────────────────────────────
+# -- ERP System -------------------------------------------------
 
 class ERPSystem:
     """
@@ -68,7 +68,7 @@ class ERPSystem:
         self._next_product_id: int = 1
         self._next_sale_id: int = 1
 
-    # ── Product Management ─────────────────────────────────
+    # -- Product Management ---------------------------------
 
     def add_product(self, name: str, category: str, price: float, stock: int) -> Product:
         """
@@ -121,7 +121,7 @@ class ERPSystem:
             raise ValueError("Stock cannot be negative.")
         product.stock = new_stock
 
-    # ── Sales Management ───────────────────────────────────
+    # -- Sales Management -----------------------------------
 
     def make_sale(self, product_id: int, quantity: int) -> SaleRecord:
         """
@@ -167,7 +167,7 @@ class ERPSystem:
         self._next_sale_id += 1
         return sale
 
-    # ── Reporting ──────────────────────────────────────────
+    # -- Reporting ------------------------------------------
 
     def generate_report(self) -> dict:
         """
@@ -206,33 +206,33 @@ class ERPSystem:
         report = self.generate_report()
 
         print("\n" + "=" * 60)
-        print("  📊 ERP SYSTEM — SALES & STOCK REPORT")
+        print("   ERP SYSTEM - SALES & STOCK REPORT")
         print("=" * 60)
 
         print(f"\n  Total Transactions : {report['total_sales_count']}")
         print(f"  Total Units Sold   : {report['total_units_sold']}")
-        print(f"  Total Revenue      : ₹{report['total_revenue']:,.2f}")
+        print(f"  Total Revenue      : Rs.{report['total_revenue']:,.2f}")
 
-        print("\n  ── Sales Breakdown by Product ──")
+        print("\n  -- Sales Breakdown by Product --")
         for product_name, data in report["sales_by_product"].items():
-            print(f"    {product_name:<20} | {data['units_sold']:>4} units | ₹{data['revenue']:>10,.2f}")
+            print(f"    {product_name:<20} | {data['units_sold']:>4} units | Rs.{data['revenue']:>10,.2f}")
 
-        print("\n  ── Remaining Stock ──")
+        print("\n  -- Remaining Stock --")
         for product_name, stock in report["remaining_stock"].items():
-            status = "✅" if stock > 0 else "❌ OUT OF STOCK"
+            status = " " if stock > 0 else " [OUT OF STOCK]"
             print(f"    {product_name:<20} | {stock:>4} units  {status if stock == 0 else ''}")
 
         print("\n" + "=" * 60)
 
 
-# ── Main Demo ──────────────────────────────────────────────────
+# -- Main Demo --------------------------------------------------
 
 if __name__ == "__main__":
 
     erp = ERPSystem()
 
     # Add products
-    print("✅ Adding products...")
+    print("[SUCCESS] Adding products...")
     erp.add_product("Laptop", "Electronics", 45000, 25)
     erp.add_product("Smartphone", "Electronics", 15000, 40)
     erp.add_product("T-Shirt", "Clothing", 800, 200)
@@ -241,34 +241,34 @@ if __name__ == "__main__":
     print(f"  Added {len(erp.products)} products.")
 
     # Make some sales
-    print("\n✅ Processing sales...")
+    print("\n[SUCCESS] Processing sales...")
     sale1 = erp.make_sale(1, 5)   # 5 Laptops
-    print(f"  Sale #{sale1.sale_id}: {sale1.quantity}x {sale1.product_name} = ₹{sale1.total_amount:,.2f}")
+    print(f"  Sale #{sale1.sale_id}: {sale1.quantity}x {sale1.product_name} = Rs.{sale1.total_amount:,.2f}")
 
     sale2 = erp.make_sale(2, 10)  # 10 Smartphones
-    print(f"  Sale #{sale2.sale_id}: {sale2.quantity}x {sale2.product_name} = ₹{sale2.total_amount:,.2f}")
+    print(f"  Sale #{sale2.sale_id}: {sale2.quantity}x {sale2.product_name} = Rs.{sale2.total_amount:,.2f}")
 
     sale3 = erp.make_sale(3, 50)  # 50 T-Shirts
-    print(f"  Sale #{sale3.sale_id}: {sale3.quantity}x {sale3.product_name} = ₹{sale3.total_amount:,.2f}")
+    print(f"  Sale #{sale3.sale_id}: {sale3.quantity}x {sale3.product_name} = Rs.{sale3.total_amount:,.2f}")
 
     sale4 = erp.make_sale(4, 3)   # 3 Office Chairs
-    print(f"  Sale #{sale4.sale_id}: {sale4.quantity}x {sale4.product_name} = ₹{sale4.total_amount:,.2f}")
+    print(f"  Sale #{sale4.sale_id}: {sale4.quantity}x {sale4.product_name} = Rs.{sale4.total_amount:,.2f}")
 
     sale5 = erp.make_sale(5, 100) # 100 Rice bags
-    print(f"  Sale #{sale5.sale_id}: {sale5.quantity}x {sale5.product_name} = ₹{sale5.total_amount:,.2f}")
+    print(f"  Sale #{sale5.sale_id}: {sale5.quantity}x {sale5.product_name} = Rs.{sale5.total_amount:,.2f}")
 
     # Test insufficient stock
-    print("\n✅ Testing error handling...")
+    print("\n[SUCCESS] Testing error handling...")
     try:
         erp.make_sale(1, 999)
     except InsufficientStockError as e:
-        print(f"  Caught expected error → {e}")
+        print(f"  Caught expected error -> {e}")
 
     try:
         erp.make_sale(99, 1)
     except ProductNotFoundError as e:
-        print(f"  Caught expected error → {e}")
+        print(f"  Caught expected error -> {e}")
 
     # Generate report
     erp.print_report()
-    print("\n✅ Section 2 completed!\n")
+    print("\n [SUCCESS] Section 2 completed!\n")

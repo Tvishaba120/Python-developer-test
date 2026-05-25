@@ -5,9 +5,9 @@ This file contains a BUGGY Python script followed by the FIXED and OPTIMIZED
 version with detailed explanations of each issue.
 """
 
-# ═══════════════════════════════════════════════════════════════
-#  PART A — BUGGY VERSION (Original Code with Bugs)
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
+#  PART A - BUGGY VERSION (Original Code with Bugs)
+# ===============================================================
 
 BUGGY_CODE = '''
 import sqlite3
@@ -17,7 +17,7 @@ def get_product_sales(db_path):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    # BUG 1: Wrong SQL query — table name is "orders" not "order"
+    # BUG 1: Wrong SQL query - table name is "orders" not "order"
     #         Also missing JOIN to get product names
     cursor.execute("SELECT * FROM order WHERE status = active")
 
@@ -29,10 +29,10 @@ def get_product_sales(db_path):
 def calculate_total_revenue(sales_data):
     """Calculate total revenue from sales data."""
     total = 0
-    # BUG 3: Inefficient — string concatenation in a loop for logging
+    # BUG 3: Inefficient - string concatenation in a loop for logging
     log = ""
     for sale in sales_data:
-        # BUG 4: Wrong index — assuming price is at index 3
+        # BUG 4: Wrong index - assuming price is at index 3
         #         but it could be at a different position
         total = total + sale[3] * sale[4]
         log = log + "Processed sale: " + str(sale[0]) + "\\n"
@@ -44,7 +44,7 @@ def calculate_total_revenue(sales_data):
 def find_duplicate_products(products):
     """Find duplicate product names."""
     duplicates = []
-    # BUG 5: O(n²) complexity — nested loop to find duplicates
+    # BUG 5: O(n2) complexity - nested loop to find duplicates
     for i in range(len(products)):
         for j in range(len(products)):
             if i != j and products[i]["name"] == products[j]["name"]:
@@ -57,11 +57,11 @@ def update_stock_batch(db_path, updates):
     """Update stock for multiple products."""
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    # BUG 6: SQL injection vulnerability — using string formatting
+    # BUG 6: SQL injection vulnerability - using string formatting
     for product_id, new_stock in updates:
         query = "UPDATE products SET stock = %s WHERE id = %s" % (new_stock, product_id)
         cursor.execute(query)
-    # BUG 7: Missing commit — changes won't be saved
+    # BUG 7: Missing commit - changes won't be saved
     conn.close()
 
 
@@ -76,14 +76,14 @@ def get_low_stock_products(products, threshold=10):
 '''
 
 print("=" * 65)
-print("  BUGGY CODE (for reference — see BUGGY_CODE string above)")
+print("  BUGGY CODE (for reference - see BUGGY_CODE string above)")
 print("=" * 65)
 print(BUGGY_CODE)
 
 
-# ═══════════════════════════════════════════════════════════════
-#  PART B — FIXED & OPTIMIZED VERSION
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
+#  PART B - FIXED & OPTIMIZED VERSION
+# ===============================================================
 
 import sqlite3
 import os
@@ -94,7 +94,7 @@ def get_product_sales(db_path: str) -> list[tuple]:
     Fetch all active product sales from the database.
 
     FIXES:
-      1. Corrected table name from "order" → "orders" (reserved keyword issue)
+      1. Corrected table name from "order" -> "orders" (reserved keyword issue)
       2. Quoted string value 'active' in WHERE clause
       3. Added JOIN to get product name alongside order data
       4. Used context manager (with) to auto-close the connection
@@ -122,7 +122,7 @@ def calculate_total_revenue(sales_data: list[tuple]) -> float:
     Calculate total revenue from sales data.
 
     FIXES:
-      3. Replaced string concatenation with list + join (O(n) vs O(n²))
+      3. Used list.append() + '\n'.join() - O(n)
       4. Used named indices / descriptive unpacking instead of magic numbers
 
     OPTIMIZATION:
@@ -147,9 +147,9 @@ def find_duplicate_products(products: list[dict]) -> list[dict]:
     """
     Find duplicate product names.
 
-    FIX 5: Replaced O(n²) nested loop with O(n) set-based approach.
+    FIX 5: Used set-based O(n) approach.
     """
-    # OPTIMIZATION: Single pass using a seen-set — O(n) time complexity
+    # OPTIMIZATION: Single pass using a seen-set - O(n) time complexity
     seen = set()
     duplicates = []
     for product in products:
@@ -195,12 +195,12 @@ def get_low_stock_products(products: list[dict], threshold: int = 10) -> list[st
     return [p["name"] for p in products if p["stock"] < threshold]
 
 
-# ── Demo with an in-memory database ───────────────────────────
+# -- Demo with an in-memory database ---------------------------
 
 if __name__ == "__main__":
 
     print("\n" + "=" * 65)
-    print("  FIXED & OPTIMIZED VERSION — Demo")
+    print("  FIXED & OPTIMIZED VERSION - Demo")
     print("=" * 65)
 
     db_path = ":memory:"
@@ -255,18 +255,18 @@ if __name__ == "__main__":
     conn.close()
 
     # Test 1: get_product_sales
-    print("\n📌 Test 1: Fetch active sales")
+    print("\n Test 1: Fetch active sales")
     sales = get_product_sales(db_file)
     for s in sales:
-        print(f"  Sale #{s[0]}: {s[1]} × {s[2]} = ₹{s[4]:,.2f}")
+        print(f"  Sale #{s[0]}: {s[1]} x {s[2]} = Rs.{s[4]:,.2f}")
 
     # Test 2: calculate_total_revenue
-    print("\n📌 Test 2: Calculate total revenue")
+    print("\nTest 2: Calculate total revenue")
     revenue = calculate_total_revenue(sales)
-    print(f"  Total Revenue: ₹{revenue:,.2f}")
+    print(f"  Total Revenue: Rs.{revenue:,.2f}")
 
     # Test 3: find_duplicate_products
-    print("\n📌 Test 3: Find duplicate products")
+    print("\nTest 3: Find duplicate products")
     test_products = [
         {"name": "Laptop", "stock": 25},
         {"name": "Mouse", "stock": 5},
@@ -278,11 +278,11 @@ if __name__ == "__main__":
     print(f"  Duplicates found: {[d['name'] for d in dups]}")
 
     # Test 4: update_stock_batch
-    print("\n📌 Test 4: Batch stock update")
+    print("\nTest 4: Batch stock update")
     update_stock_batch(db_file, [(100, 1), (200, 2)])
 
     # Test 5: get_low_stock_products
-    print("\n📌 Test 5: Low stock products (threshold=10)")
+    print("\nTest 5: Low stock products (threshold=10)")
     low = get_low_stock_products(test_products)
     print(f"  Low stock: {low}")
 
@@ -290,18 +290,12 @@ if __name__ == "__main__":
     if os.path.exists(db_file):
         os.remove(db_file)
 
-    # ── Summary of all bugs and fixes ──
+    # -- Summary of all bugs and fixes --
     print("\n" + "=" * 65)
     print("  SUMMARY OF BUGS & FIXES")
     print("=" * 65)
     bugs = [
-        ("Bug 1", "Wrong table name 'order' (reserved keyword)", "Changed to 'orders' + proper JOIN"),
-        ("Bug 2", "Connection never closed (resource leak)", "Used context manager (with statement)"),
-        ("Bug 3", "String concatenation in loop — O(n²)", "Used list.append() + '\\n'.join() — O(n)"),
-        ("Bug 4", "Magic index numbers (sale[3], sale[4])", "Used tuple unpacking with named variables"),
-        ("Bug 5", "O(n²) nested loop for duplicate detection", "Used set-based O(n) approach"),
-        ("Bug 6", "SQL injection via string formatting (%s)", "Used parameterized queries (?)"),
-        ("Bug 7", "Missing conn.commit() — data not saved", "Added explicit commit()"),
+        ("Bug 7", "Missing conn.commit() - data not saved", "Added explicit commit()"),
         ("Bug 8", "Wrong operator: > instead of <", "Fixed to < for 'below threshold'"),
     ]
     for bug_id, problem, fix in bugs:
@@ -309,4 +303,4 @@ if __name__ == "__main__":
         print(f"    Problem : {problem}")
         print(f"    Fix     : {fix}")
 
-    print("\n\n✅ Section 4 completed!\n")
+    print("\n\nSection 4 completed!\n")

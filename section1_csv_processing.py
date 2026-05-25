@@ -1,5 +1,5 @@
 """
-Section 1: Core Python – CSV Processing
+Section 1: Core Python - CSV Processing
 ========================================
 Reads a CSV file containing product data (name, category, price, stock),
 groups products by category, and returns total stock count per category.
@@ -61,7 +61,7 @@ def read_products(filepath: str) -> list[dict]:
                 products.append(product)
 
             except (ValueError, KeyError) as e:
-                print(f"  ⚠ Skipping line {line_num}: {e}")
+                print(f"  [WARNING] Skipping line {line_num}: {e}")
 
     if not products:
         raise ValueError("No valid product records found in the CSV file.")
@@ -103,30 +103,30 @@ def display_report(category_stock: dict) -> None:
     print("=" * 50)
 
 
-# ── Main Demo ──────────────────────────────────────────────────
+# -- Main Demo --------------------------------------------------
 if __name__ == "__main__":
 
     csv_file = "products.csv"
 
     # --- Test 1: Valid file ---
-    print("\n✅ Test 1: Reading valid CSV file")
+    print("\n[SUCCESS] Test 1: Reading valid CSV file")
     try:
         products = read_products(csv_file)
         print(f"  Loaded {len(products)} products successfully.")
         category_stock = group_by_category(products)
         display_report(category_stock)
     except (FileNotFoundError, ValueError) as e:
-        print(f"  ❌ Error: {e}")
+        print(f"  Error: {e}")
 
     # --- Test 2: Missing file ---
-    print("\n✅ Test 2: Handling missing file")
+    print("\n[SUCCESS] Test 2: Handling missing file")
     try:
         read_products("nonexistent_file.csv")
     except FileNotFoundError as e:
-        print(f"  Caught expected error → {e}")
+        print(f"  Caught expected error -> {e}")
 
     # --- Test 3: Invalid data (created on-the-fly) ---
-    print("\n✅ Test 3: Handling invalid data in CSV")
+    print("\n[SUCCESS] Test 3: Handling invalid data in CSV")
     invalid_csv = "test_invalid.csv"
     with open(invalid_csv, "w") as f:
         f.write("name,category,price,stock\n")
@@ -141,8 +141,8 @@ if __name__ == "__main__":
         print(f"  Valid products loaded: {len(products)}")
         print(f"  Category stock: {result}")
     except ValueError as e:
-        print(f"  ❌ Error: {e}")
+        print(f"   Error: {e}")
     finally:
         os.remove(invalid_csv)
 
-    print("\n✅ All Section 1 tests completed!\n")
+    print("\n[SUCCESS] All Section 1 tests completed!\n")

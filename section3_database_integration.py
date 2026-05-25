@@ -15,8 +15,8 @@ from sqlalchemy import (
 from sqlalchemy.orm import declarative_base, sessionmaker, relationship
 from datetime import datetime
 
-# ── Database Configuration ─────────────────────────────────────
-# SQLite (default — no server required):
+# -- Database Configuration -------------------------------------
+# SQLite (default - no server required):
 DATABASE_URL = "sqlite:///erp_database.db"
 
 # To use PostgreSQL, replace with:
@@ -30,10 +30,10 @@ SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
 
-# ── ORM Models (Tables) ───────────────────────────────────────
+# -- ORM Models (Tables) ---------------------------------------
 
 class Product(Base):
-    """Products table — stores product information."""
+    """Products table - stores product information."""
     __tablename__ = "products"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -48,7 +48,7 @@ class Product(Base):
 
 
 class Customer(Base):
-    """Customers table — stores customer information."""
+    """Customers table - stores customer information."""
     __tablename__ = "customers"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -65,7 +65,7 @@ class Customer(Base):
 
 
 class Order(Base):
-    """Orders table — stores order transactions."""
+    """Orders table - stores order transactions."""
     __tablename__ = "orders"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -84,12 +84,12 @@ class Order(Base):
                 f"product_id={self.product_id}, qty={self.quantity})>")
 
 
-# ── Database Operations ───────────────────────────────────────
+# -- Database Operations ---------------------------------------
 
 def create_tables():
     """Creates all tables in the database."""
     Base.metadata.create_all(engine)
-    print("  ✅ Tables created: products, customers, orders")
+    print("  [SUCCESS] Tables created: products, customers, orders")
 
 
 def drop_tables():
@@ -208,7 +208,7 @@ def update_stock(session, product_id: int, new_stock: int) -> None:
     session.commit()
 
 
-# ── Main Demo ──────────────────────────────────────────────────
+# -- Main Demo --------------------------------------------------
 
 if __name__ == "__main__":
     import os
@@ -223,14 +223,14 @@ if __name__ == "__main__":
     print("=" * 60)
 
     # Step 1: Create tables
-    print("\n📌 Step 1: Creating database tables...")
+    print("\n Step 1: Creating database tables...")
     create_tables()
 
     session = SessionLocal()
 
     try:
         # Step 2: Insert products
-        print("\n📌 Step 2: Inserting products...")
+        print("\nStep 2: Inserting products...")
         p1 = insert_product(session, "Laptop", "Electronics", 45000, 25)
         p2 = insert_product(session, "Smartphone", "Electronics", 15000, 40)
         p3 = insert_product(session, "T-Shirt", "Clothing", 800, 200)
@@ -238,36 +238,36 @@ if __name__ == "__main__":
         print(f"  Inserted: {p1.name}, {p2.name}, {p3.name}, {p4.name}")
 
         # Step 3: Insert customers
-        print("\n📌 Step 3: Inserting customers...")
+        print("\nStep 3: Inserting customers...")
         c1 = insert_customer(session, "Rahul Sharma", "rahul@example.com", "9876543210")
         c2 = insert_customer(session, "Priya Patel", "priya@example.com", "9123456789")
         print(f"  Inserted: {c1.name}, {c2.name}")
 
         # Step 4: Place orders
-        print("\n📌 Step 4: Placing orders...")
+        print("\n Step 4: Placing orders...")
         o1 = place_order(session, c1.id, p1.id, 2)  # Rahul buys 2 Laptops
-        print(f"  Order #{o1.id}: {c1.name} → 2x {p1.name} = ₹{o1.total_price:,.2f}")
+        print(f"  Order #{o1.id}: {c1.name} -> 2x {p1.name} = Rs.{o1.total_price:,.2f}")
 
         o2 = place_order(session, c1.id, p3.id, 5)  # Rahul buys 5 T-Shirts
-        print(f"  Order #{o2.id}: {c1.name} → 5x {p3.name} = ₹{o2.total_price:,.2f}")
+        print(f"  Order #{o2.id}: {c1.name} -> 5x {p3.name} = Rs.{o2.total_price:,.2f}")
 
         o3 = place_order(session, c2.id, p2.id, 3)  # Priya buys 3 Smartphones
-        print(f"  Order #{o3.id}: {c2.name} → 3x {p2.name} = ₹{o3.total_price:,.2f}")
+        print(f"  Order #{o3.id}: {c2.name} -> 3x {p2.name} = Rs.{o3.total_price:,.2f}")
 
         # Step 5: Fetch orders for a customer
-        print(f"\n📌 Step 5: Fetching all orders for '{c1.name}'...")
+        print(f"\nStep 5: Fetching all orders for '{c1.name}'...")
         rahul_orders = fetch_customer_orders(session, c1.id)
         for order in rahul_orders:
             print(f"  Order #{order.id}: Product={order.product.name}, "
-                  f"Qty={order.quantity}, Total=₹{order.total_price:,.2f}")
+                  f"Qty={order.quantity}, Total=Rs.{order.total_price:,.2f}")
 
         # Step 6: Check updated stock
-        print("\n📌 Step 6: Verifying stock after orders...")
+        print("\n Step 6: Verifying stock after orders...")
         for product in session.query(Product).all():
-            print(f"  {product.name:<20} → Stock: {product.stock}")
+            print(f"  {product.name:<20} -> Stock: {product.stock}")
 
         # Step 7: Manual stock update
-        print("\n📌 Step 7: Manually updating Laptop stock to 50...")
+        print("\nStep 7: Manually updating Laptop stock to 50...")
         update_stock(session, p1.id, 50)
         refreshed = session.query(Product).filter_by(id=p1.id).first()
         print(f"  {refreshed.name} stock is now: {refreshed.stock}")
@@ -279,4 +279,4 @@ if __name__ == "__main__":
     if os.path.exists(db_file):
         os.remove(db_file)
 
-    print("\n✅ Section 3 completed!\n")
+    print("\nSection 3 completed!\n")
